@@ -129,7 +129,7 @@ if(isset($message))
   <?php 
   if(isset($perso)):
   ?>
-  <a href="index.php">retour</a>
+  
   <a href="?deconnexion=abc">deconnexion</a>
 
   <fieldset style="margin-top: 20px;">

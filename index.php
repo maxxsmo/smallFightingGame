@@ -83,7 +83,11 @@
           case Personnage::PERSONNAGE_FRAPPE : 
             $message = "vous avez frappé un personnage";
 
+            $perso->addExperience();
+            $a = "aaaaaahhhhhhhhh";
             $manager->update($persoAFrapper);
+            $manager->update($perso);
+            
 
           break;
 
@@ -95,6 +99,28 @@
           break;
 
         }
+
+        if(Personnage::PERSONNAGE_MONTE_NIVEAU)
+        {
+          if($perso->experience() == 10)
+          {
+            $message = " YOUHOU ce perso gagne un niveau.";
+            $perso->addNiveau();
+            $perso->setExperience(0); 
+            $manager->update($perso);
+          }
+          elseif($perso->niveau() == 3)
+          {
+            $message = "WINNER";
+          }
+        }
+        // elseif(Personnage::PERSONNAGE_GAGNE)
+        //   {
+        //     $message = "Vous avez gagné";
+        //   }
+        
+        
+
       }
     }  
   }
@@ -112,6 +138,10 @@
 </head>
 <body>
 <?php
+if(isset($winnerMessage))
+{
+  echo "<h1>$winnerMessage</h1>";
+}
 if(isset($message))
 {
   echo "<p>$message</p>";
@@ -134,8 +164,10 @@ if(isset($message))
 
   <fieldset style="margin-top: 20px;">
     <legend>Mes informations :</legend>
-    <p><strong>nom : </strong><?= htmlspecialchars($perso->nom())?></p>
-    <p><strong>degats : </strong><?= $perso->degats()?></p>
+    <p><strong>Nom : </strong><?= htmlspecialchars($perso->nom())?></p>
+    <p><strong>Degats : </strong><?= $perso->degats()?></p>
+    <p><strong>Expérience : </strong><?= $perso->experience()?></p>
+    <p><strong>Niveau : </strong><?= $perso->niveau()?></p>  
   </fieldset>
 
   <fieldset style="margin-top: 20px;">
@@ -147,7 +179,10 @@ if(isset($message))
     for($i=0; $i<count($persos);$i++):
     ?>
     <p>
-      <strong>nom: </strong> <?= $unperso[$i]->nom()?> <strong>degats: </strong> <?= $unperso[$i]->degats()?>
+      <strong>nom: </strong> <?= $unperso[$i]->nom()?> 
+      <strong>degats: </strong> <?= $unperso[$i]->degats()?> 
+      <strong>experience: </strong> <?= $unperso[$i]->experience()?>
+      <strong>niveau: </strong> <?= $unperso[$i]->niveau()?>
       <a href="?frapper=<?= $unperso[$i]->id()?>">frapper</a>
     </p>
     <?php endfor; ?>

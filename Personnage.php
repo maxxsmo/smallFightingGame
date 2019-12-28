@@ -5,10 +5,15 @@ class Personnage {
   private $_id;
   private $_nom;
   private $_degats = 0;
+  private $_experience;
+  private $_niveau;
 
   const CEST_MOI = 1; // constante renvoyé par la méthode frapper() si on se frappe soi-même.
   const PERSONNAGE_TUE = 2; // CONST renvoyé par la méthode recevoirDegats() si on a tué le perso en frappant. 
   const PERSONNAGE_FRAPPE = 3; // CONST renvoyé par la méthode recevoirDegats si on a frappé le perso.
+  const PERSONNAGE_MONTE_NIVEAU = 4;
+
+  const PERSONNAGE_GAGNE = 5; // const renvoyé par la méthode addNiveau() si un personnage atteint le niveau 3.
 
   public function __construct(array $data) {
     $this->hydrate($data);
@@ -38,11 +43,14 @@ class Personnage {
   
 
   public function frapper(Personnage  $perso) {
+    
     if($this->_id == $perso->id())
     {
       return self::CEST_MOI;
     }
+    
     return $perso->recevoirDegats();
+    
   }
 
 
@@ -60,11 +68,36 @@ class Personnage {
     return self::PERSONNAGE_FRAPPE;
   }
 
+  public function addNiveau() {
+
+      $this->_niveau += 1;
+
+      if($this->_niveau >= 3)
+      {
+        return self::PERSONNAGE_GAGNE;
+      }
+
+      
+       
+  }
+
+  public function addExperience() {
+
+    $this->_experience += 2;
+
+    if($this->_experience == 10)
+    {
+      return self::PERSONNAGE_MONTE_NIVEAU;
+    }
+  }
+
   // getters : 
 
   public function id() {return $this->_id;}
   public function nom() {return $this->_nom;}
   public function degats() {return $this->_degats;}
+  public function experience() {return $this->_experience;}
+  public function niveau() {return $this->_niveau;}
 
 
   //getters end.
@@ -95,6 +128,27 @@ class Personnage {
     {
       $this->_degats = $degats;
     }
+  }
+
+  public function setExperience($exp) {
+
+    $exp = (int) $exp;
+    if($exp >= 0 && $exp <= 10)
+    {
+      $this->_experience = $exp;
+    }
+    
+    
+  }
+
+  public function setNiveau($niveau) {
+
+    $niveau = (int) $niveau;
+    if($niveau >= 0 && $niveau <= 3)
+    {
+      $this->_niveau = $niveau;
+    }
+
   }
   // setters end.
 

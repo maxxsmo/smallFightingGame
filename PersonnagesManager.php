@@ -23,17 +23,21 @@ class PersonnagesManager {
     $q->bindValue(":nom", $perso->nom());
     $q->execute() or die(print_r($q->errorInfo()));
     
-    $perso->hydrate(["id" => $this->_db->lastInsertId(), "degats" => 0]);
+    $perso->hydrate(["id" => $this->_db->lastInsertId(), "degats" => 0, "experience" => 0, "niveau" => 0]);
 
   }
 
   public function update(Personnage $perso) {
 
-    $q = $this->_db->prepare("UPDATE personnages SET degats = :degats WHERE id = :id");
+    $q = $this->_db->prepare("UPDATE personnages SET degats = :degats, experience = :experience, niveau = :niveau WHERE id = :id");
     $q->bindValue(":degats", $perso->degats(), PDO::PARAM_INT);
+    $q->bindValue(":experience", $perso->experience(), PDO::PARAM_INT);
+    $q->bindValue(":niveau", $perso->niveau(), PDO::PARAM_INT);
     $q->bindValue(":id", $perso->id(), PDO::PARAM_INT);
     $q->execute();
   }
+
+  
 
   public function delete(Personnage $perso) {
 

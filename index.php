@@ -108,19 +108,13 @@
             $perso->addNiveau();
             $perso->setExperience(0); 
             $manager->update($perso);
-          }
-          elseif($perso->niveau() == 3)
-          {
-            $message = "WINNER";
+
+            if(Personnage::PERSONNAGE_GAGNE)
+            {
+              $winnerMessage = "Vous avez gagné";
+            }
           }
         }
-        // elseif(Personnage::PERSONNAGE_GAGNE)
-        //   {
-        //     $message = "Vous avez gagné";
-        //   }
-        
-        
-
       }
     }  
   }
@@ -141,6 +135,7 @@
 if(isset($winnerMessage))
 {
   echo "<h1>$winnerMessage</h1>";
+  exit;
 }
 if(isset($message))
 {

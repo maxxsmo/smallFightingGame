@@ -142,6 +142,7 @@ if(isset($message))
   echo "<p>$message</p>";
 }
 
+
 ?>
 <p>Nombre de personnages : <?php echo $manager->count(); ?></p>
   <form action="" method="post">

@@ -48,9 +48,9 @@ __REFLEXION :__
     - [x] mettre à jour le switch / case de la méthode frapper().
         - [x] case Personnage::PERSONNAGE_FRAPPE => appeler la fonction addExperience();
     - [x] new if statement : if Personnage::PERSONNAGE_MONTE_NIVEAU 
-            - [x] appeler $perso->addNiveau()
-            - [x] appeler $perso>setExperience(0);
-            - [x] $manager->update($perso).
+        - [x] appeler $perso->addNiveau()
+        - [x] appeler $perso>setExperience(0);
+        - [x] $manager->update($perso).
         - [x] if Personnage::PERSONNAGE_GAGNE => return $winnerMessage.
         - [x] end if.
     - [x] end if 

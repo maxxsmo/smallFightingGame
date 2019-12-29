@@ -11,7 +11,7 @@ class Personnage {
   const CEST_MOI = 1; // constante renvoyé par la méthode frapper() si on se frappe soi-même.
   const PERSONNAGE_TUE = 2; // CONST renvoyé par la méthode recevoirDegats() si on a tué le perso en frappant. 
   const PERSONNAGE_FRAPPE = 3; // CONST renvoyé par la méthode recevoirDegats si on a frappé le perso.
-  const PERSONNAGE_MONTE_NIVEAU = 4;
+  const PERSONNAGE_MONTE_NIVEAU = 4;  
 
   const PERSONNAGE_GAGNE = 5; // const renvoyé par la méthode addNiveau() si un personnage atteint le niveau 3.
 

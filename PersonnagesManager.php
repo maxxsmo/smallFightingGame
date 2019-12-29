@@ -8,7 +8,7 @@ class PersonnagesManager {
     $this->setDb($db);
   }
 
-  // setters : 
+  // setters :   
   public function setDb($db) {
     $this->_db = $db;
   }

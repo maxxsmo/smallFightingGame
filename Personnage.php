@@ -4,9 +4,10 @@ class Personnage {
 
   private $_id;
   private $_nom;
-  private $_degats = 0;
+  private $_degats;
   private $_experience;
   private $_niveau;
+  private $_puissance;
 
   const CEST_MOI = 1; // constante renvoyé par la méthode frapper() si on se frappe soi-même.
   const PERSONNAGE_TUE = 2; // CONST renvoyé par la méthode recevoirDegats() si on a tué le perso en frappant. 
@@ -48,31 +49,25 @@ class Personnage {
     {
       return self::CEST_MOI;
     }
-    
-    return $perso->recevoirDegats();
-    
-  }
-
-
-
-  public function recevoirDegats() {
-
-    $this->_degats += 5;
-
-    if($this->_degats >= 100) 
+    elseif($perso->_degats >= 200) 
     {
       return self::PERSONNAGE_TUE;
     }
-
+    else
+    {
+      $perso->_degats += $this->_puissance;
+      return self::PERSONNAGE_FRAPPE;
+    }
     
-    return self::PERSONNAGE_FRAPPE;
+    
   }
+
 
   public function addNiveau() {
 
       $this->_niveau += 1;
 
-      if($this->_niveau >= 3)
+      if($this->_niveau == 3)
       {
         return self::PERSONNAGE_GAGNE;
       }
@@ -91,6 +86,14 @@ class Personnage {
     }
   }
 
+  public function addPuissance() {
+    if($this->_puissance <= 15)
+    {
+      $this->_puissance += 5;
+    }
+    
+  }
+
   // getters : 
 
   public function id() {return $this->_id;}
@@ -98,6 +101,7 @@ class Personnage {
   public function degats() {return $this->_degats;}
   public function experience() {return $this->_experience;}
   public function niveau() {return $this->_niveau;}
+  public function puissance() {return $this->_puissance;}
 
 
   //getters end.
@@ -149,6 +153,15 @@ class Personnage {
       $this->_niveau = $niveau;
     }
 
+  }
+
+  public function setPuissance($puissance) {
+
+    $puissance = (int) $puissance;
+    if($puissance >= 0 && $puissance <= 15)
+    {
+      $this->_puissance = $puissance;
+    }
   }
   // setters end.
 

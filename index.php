@@ -84,7 +84,6 @@
             $message = "vous avez frappé un personnage";
 
             $perso->addExperience();
-            $a = "aaaaaahhhhhhhhh";
             $manager->update($persoAFrapper);
             $manager->update($perso);
             
@@ -106,15 +105,19 @@
           {
             $message = " YOUHOU ce perso gagne un niveau.";
             $perso->addNiveau();
+            $perso->addPuissance();
             $perso->setExperience(0); 
             $manager->update($perso);
-
-            if(Personnage::PERSONNAGE_GAGNE)
-            {
-              $winnerMessage = "Vous avez gagné";
-            }
+          }
+          elseif($perso->niveau() == 3)
+          {
+            $winnerMessage = "Vous avez gagné";
           }
         }
+        // if(Personnage::PERSONNAGE_GAGNE)
+        // {
+        //   echo "<h1>salut salut salut</h1>";
+        // }
       }
     }  
   }

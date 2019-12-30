@@ -39,8 +39,6 @@ __REFLEXION :__
     - [x] update méthode add.
     - [x] mettre à jour la méthode update
         * ajouter dans requête après SET experience, niveau. + ajout des PDOStatement::bindValue
-    - [x] nouvelle méthode resetExperience(Personnage $perso)
-        * requête sql ‘UPDATE personnages SET  experience = 0  WHERE id = ‘ .$perso->id()
 
 * dans index.php : 
     - [x] update la partie information du personnage.
@@ -53,5 +51,44 @@ __REFLEXION :__
         - [x] $manager->update($perso).
         - [x] if Personnage::PERSONNAGE_GAGNE => return $winnerMessage.
         - [x] end if.
-    - [x] end if 
+    - [x] end if  
     - [x] ;if(isset($winnerMessage) => fin de script.
+
+
+    ----
+
+
+
+## Ajout puissance en fonction du niveau (force du personnage)
+	
+* valeur initiale = 5
+* la force du personnage augmente en fonction du niveau 
+    * niveau 0 = puissance 5
+    * niveau 1 = puissance 10
+    * niveau 2 => puissance 15
+* Les dégâts infligé sont plus important, proportionnellement à la puissance du personnage. 
+
+
+Reflexion ? 
+
+* class Personnage :
+    - [x] nouveau attribut privé : puissance
+    - [x] donner valeur initiale de 5
+    - [x] ajouter méthodes setters et getters (puissance , setPuissance)
+    - [x] créer nouvelle méthode addPuissance()
+        - [x] if … >=  0 && <= 15
+            - [x] $this->_puissance += 5;
+    - [x] mise a jour de la méthode frapper()
+        - [x] copier méthode recevoirDegats() dans la méthode frapper.
+        - [x] supprimer méthode recevoirDegats().
+        - [x] infliger les dégâts en fonction de la force du personnage qui attaque. 
+
+
+
+* class PersonnagesManager :
+    - [x] mise à jour méthode add => $perso->hydrate
+    - [x] mise à jour méthode update : $q->bindValue(« :puissance », $perso->puissance(), PDO::PARAM_INT)
+
+
+* index.php :
+    - [x] ligne 103 : ajouter une ligne => $perso->addPuissance()

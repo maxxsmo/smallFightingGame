@@ -62,7 +62,6 @@ class Personnage {
     
   }
 
-
   public function addNiveau() {
 
       $this->_niveau += 1;

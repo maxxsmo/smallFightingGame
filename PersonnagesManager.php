@@ -14,7 +14,6 @@ class PersonnagesManager {
   }
   //end setters.
 
-
   // Queries 
 
   public function add(Personnage $perso) {

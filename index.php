@@ -83,9 +83,15 @@
           case Personnage::PERSONNAGE_FRAPPE : 
             $message = "vous avez frappé un personnage";
 
+            $date = new DateTime();
+            $timeZone = new DateTimeZone('Europe/Paris');
+            $date->setTimezone($timeZone);
+            $date->format("Y-m-d H:i:s");
+            $perso->setDateDernierCoup($date);
             $perso->addExperience();
             $manager->update($persoAFrapper);
             $manager->update($perso);
+            $manager->updateDate($perso);
             
 
           break;
@@ -99,6 +105,7 @@
 
         }
 
+        
         if(Personnage::PERSONNAGE_MONTE_NIVEAU)
         {
           if($perso->experience() == 10)
@@ -114,12 +121,10 @@
             $winnerMessage = "Vous avez gagné";
           }
         }
-        // if(Personnage::PERSONNAGE_GAGNE)
-        // {
-        //   echo "<h1>salut salut salut</h1>";
-        // }
+        
       }
-    }  
+    } 
+ 
   }
 ?>
 
@@ -139,13 +144,18 @@
 if(isset($winnerMessage))
 {
   echo "<h1>$winnerMessage</h1>";
+  session_destroy();
+  echo "<a href=\"index.php\">jouer encore</a>";
   exit;
 }
 if(isset($message))
 {
   echo "<p>$message</p>";
 }
-
+if(isset($perso) && isset($date))
+{
+  echo $perso->dateDernierCoup()->format("Y-m-d H:i:s");
+}
 
 ?>
 <p>Nombre de personnages : <?php echo $manager->count(); ?></p>

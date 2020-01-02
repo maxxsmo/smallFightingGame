@@ -69,7 +69,7 @@ __REFLEXION :__
 * Les dégâts infligé sont plus important, proportionnellement à la puissance du personnage. 
 
 
-Reflexion ? 
+__Reflexion ?__
 
 * class Personnage :
     - [x] nouveau attribut privé : puissance

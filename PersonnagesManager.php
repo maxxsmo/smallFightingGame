@@ -37,6 +37,12 @@ class PersonnagesManager {
     $q->execute();
   }
 
+  public function updateDate(Personnage $perso) {
+    $q = $this->_db->prepare("UPDATE personnages SET date_dernier_coup = NOW() WHERE id = :id");
+    $q->bindValue(":id", $perso->id(), PDO::PARAM_INT);
+    $q->execute();
+  }
+
   
 
   public function delete(Personnage $perso) {

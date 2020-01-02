@@ -22,17 +22,18 @@ class PersonnagesManager {
     $q->bindValue(":nom", $perso->nom());
     $q->execute() or die(print_r($q->errorInfo()));
     
-    $perso->hydrate(["id" => $this->_db->lastInsertId(), "degats" => 0, "experience" => 0, "niveau" => 0, "puissance" => 5]);
+    $perso->hydrate(["id" => $this->_db->lastInsertId(), "degats" => 0, "experience" => 0, "niveau" => 0, "puissance" => 5, "nb_coup" => 0]);
 
   }
 
   public function update(Personnage $perso) {
 
-    $q = $this->_db->prepare("UPDATE personnages SET degats = :degats, experience = :experience, niveau = :niveau, puissance = :puissance WHERE id = :id");
+    $q = $this->_db->prepare("UPDATE personnages SET degats = :degats, experience = :experience, niveau = :niveau, puissance = :puissance, nb_coup = :nb_coup WHERE id = :id");
     $q->bindValue(":degats", $perso->degats(), PDO::PARAM_INT);
     $q->bindValue(":experience", $perso->experience(), PDO::PARAM_INT);
     $q->bindValue(":niveau", $perso->niveau(), PDO::PARAM_INT);
     $q->bindValue(":puissance", $perso->puissance(), PDO::PARAM_INT);
+    $q->bindValue(":nb_coup", $perso->nbCoup(), PDO::PARAM_INT);
     $q->bindValue(":id", $perso->id(), PDO::PARAM_INT);
     $q->execute();
   }
@@ -49,6 +50,10 @@ class PersonnagesManager {
 
     $this->_db->exec("DELETE FROM personnages WHERE id = ". $perso->id());
 
+  }
+
+  public function empty() {
+    $this->_db->exec("DELETE FROM personnages");
   }
 
   public function getPerso($var) {

@@ -24,6 +24,42 @@
   $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // On émet une alerte à chaque fois qu'une requête a échoué.
   $manager = new PersonnagesManager($db);
 
+
+ 
+// ********* FEED / DELETE DATABASE *******************
+// *******************************************
+
+
+  if(isset($_GET["feedDb"]))
+  {
+    $perso = new Personnage(["nom" => "geralt"]);
+
+    if(!$manager->exists($perso->nom()))
+    {
+      $manager->add($perso); //création + ajout dans bdd
+    }
+    
+  }
+
+  if(isset($_GET["feedDb2"]))
+  {
+    $perso = new Personnage(["nom" => "xander"]);
+
+    if(!$manager->exists($perso->nom()))
+    {      
+      $manager->add($perso); //création + ajout dans bdd
+    }
+  }
+
+  if(isset($_GET["empty"])) // si utilisateur clique sur empty database.
+  {
+    $manager->empty();
+  }
+
+// ********* CREER UN PERSO *****************
+// *******************************************
+
+
   if(isset($_POST["creer"]) && isset($_POST["nom"])) // si on veut créer un nouveau personnage
   {
     $perso = new Personnage(["nom" => $_POST["nom"]]); // création nouveau perso
@@ -53,6 +89,10 @@
       $message = "le personnage n'existe pas !";
     }
   }
+
+// ********* FRAPPER UN PERSO *****************
+// *******************************************
+
 
   if(isset($_GET["frapper"])) // si l'utilisateur clique sur frapper.
   {
@@ -86,8 +126,10 @@
             $date = new DateTime();
             $timeZone = new DateTimeZone('Europe/Paris');
             $date->setTimezone($timeZone);
-            $date->format("Y-m-d H:i:s");
+
             $perso->setDateDernierCoup($date);
+
+            $perso->CountCoup();
             $perso->addExperience();
             $manager->update($persoAFrapper);
             $manager->update($perso);
@@ -129,6 +171,11 @@
 ?>
 
 
+<?php 
+
+
+
+?>
 
 
 <!DOCTYPE html>
@@ -154,10 +201,22 @@ if(isset($message))
 }
 if(isset($perso) && isset($date))
 {
-  echo $perso->dateDernierCoup()->format("Y-m-d H:i:s");
+  echo "<p>date du dernier coup ".$perso->dateDernierCoup()->format("Y-m-d H:i:s")."</p>";
+  echo "\n";
+}
+if(isset($perso))
+{
+  echo "<p>nombre de coup : " . $perso->nbCoup()."</p>";
 }
 
+
+
 ?>
+
+<p><a href="?empty=aaa">empty database</a></p>
+
+<p><a href="?feedDb=a">add perso 1</a> / <a href="?feedDb2=b"> add perso 2</a></p>
+
 <p>Nombre de personnages : <?php echo $manager->count(); ?></p>
   <form action="" method="post">
     <label>Nom: </label> 

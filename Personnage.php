@@ -9,6 +9,7 @@ class Personnage {
   private $_niveau;
   private $_puissance = 0;
   private $_date_dernier_coup;
+  private $_nb_coup = 0;
 
   const CEST_MOI = 1; // constante renvoyé par la méthode frapper() si on se frappe soi-même.
   const PERSONNAGE_TUE = 2; // CONST renvoyé par la méthode recevoirDegats() si on a tué le perso en frappant. 
@@ -42,6 +43,8 @@ class Personnage {
   public function nomValide() {
     return !empty($this->_nom);
   }
+
+
   
 
   public function frapper(Personnage  $perso) {
@@ -101,6 +104,14 @@ class Personnage {
     
   }
 
+  public function CountCoup() {
+    if($this->_nb_coup <= 10)
+    {
+      $this->_nb_coup += 1;
+    }  
+    
+  }
+
   // getters : 
 
   public function id() {return $this->_id;}
@@ -110,6 +121,7 @@ class Personnage {
   public function niveau() {return $this->_niveau;}
   public function puissance() {return $this->_puissance;}
   public function dateDernierCoup() {return $this->_date_dernier_coup;}
+  public function nbCoup() {return $this->_nb_coup;}
 
 
   //getters end.
@@ -175,6 +187,11 @@ class Personnage {
   public function setDateDernierCoup($date) {
     
     $this->_date_dernier_coup = $date;
+  }
+
+  public function setNbCoup($nbCoup) {
+
+    $this->_nb_coup = $nbCoup;
   }
   // setters end.
 

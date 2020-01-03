@@ -105,7 +105,7 @@ class Personnage {
   }
 
   public function CountCoup() {
-    if($this->_nb_coup <= 10)
+    if($this->_nb_coup < 3)
     {
       $this->_nb_coup += 1;
     }  

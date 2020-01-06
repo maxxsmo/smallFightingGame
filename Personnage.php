@@ -17,6 +17,7 @@ class Personnage {
   const PERSONNAGE_MONTE_NIVEAU = 4;  
 
   const PERSONNAGE_GAGNE = 5; // const renvoyé par la méthode addNiveau() si un personnage atteint le niveau 3.
+  const NOMBRE_DE_COUP = 1;
 
   public function __construct(array $data) {
     $this->hydrate($data);
@@ -39,6 +40,7 @@ class Personnage {
       }
     }
   }
+  
 
   public function nomValide() {
     return !empty($this->_nom);
@@ -82,8 +84,7 @@ class Personnage {
   public function addNiveau() {
 
       $this->_niveau += 1;
-
-       
+   
   }
 
   public function addExperience() {
@@ -100,16 +101,18 @@ class Personnage {
     if($this->_puissance <= 15)
     {
       $this->_puissance += 5;
-    }
-    
+    }  
   }
 
   public function CountCoup() {
     if($this->_nb_coup < 3)
     {
       $this->_nb_coup += 1;
-    }  
-    
+    }
+    elseif($this->_nb_coup == 3)
+    {
+      return self::NOMBRE_DE_COUP;
+    }    
   }
 
   // getters : 
@@ -194,5 +197,6 @@ class Personnage {
     $this->_nb_coup = $nbCoup;
   }
   // setters end.
+  
 
 }

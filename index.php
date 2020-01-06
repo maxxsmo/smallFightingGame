@@ -111,41 +111,105 @@
       {
         $persoAFrapper = $manager->getPerso((int) $_GET["frapper"]);
 
-       $retour = $perso->frapper($persoAFrapper);
+        $date = new DateTime();
+        $date->setTimezone(new DateTimeZone('Europe/Paris'));
 
-        switch ($retour)
+        if($perso->nbCoup() == 0)
         {
-          case Personnage::CEST_MOI : 
-            $message = "vous vous frappez vous-même";
+          
+          $perso->CountCoup();
+          $perso->setDateDernierCoup($date);
+          $manager->updateDate($perso);
+          $perso->frapper($persoAFrapper);
+          
 
-          break;
+          
+          
+        }
+        elseif($perso->nbCoup() > 0 && $perso->nbCoup() < 3)
+        {
+          
+          $perso->CountCoup();
+          $perso->frapper($persoAFrapper);
+          
+          
+        }
+        elseif($perso->nbCoup() == 3)
+        {
+          $currentDate = new DateTime();
+          $currentDate->setTimezone(new DateTimeZone("Europe/Paris"));
 
-          case Personnage::PERSONNAGE_FRAPPE : 
-            $message = "vous avez frappé un personnage";
+          $tLast = $perso->dateDernierCoup()->getTimestamp();
+          $tCurrent = $currentDate->getTimestamp();
 
-            $date = new DateTime();
-            $timeZone = new DateTimeZone('Europe/Paris');
-            $date->setTimezone($timeZone);
-
-            $perso->setDateDernierCoup($date);
-
-            $perso->CountCoup();
-            $perso->addExperience();
-            $manager->update($persoAFrapper);
-            $manager->update($perso);
-            $manager->updateDate($perso);
+          if($tCurrent - $tLast > 10)
+          {
+            $perso->setNbCoup(0);
+            $perso->frapper($persoAFrapper);
             
+            
+          }
+          else
+          {
+            $message2 = "attendez pour frapper à nouveau";
+          }
 
-          break;
+         
+          
 
-          case Personnage::PERSONNAGE_TUE : 
-            $message = "le personnage frappé a été tué";
+          // switch ($retour)
+          // {
+          //   case Personnage::CEST_MOI : 
+          //     $message = "vous vous frappez vous-même";
+          //   break;
 
-            $manager->delete($persoAFrapper);
+          //   case Personnage::PERSONNAGE_FRAPPE : 
+          //     $message = "vous avez frappé un personnage";
+          //     $perso->addExperience();
+          //     $manager->update($persoAFrapper);
+          //     $manager->update($perso);  
+          //   break;
 
-          break;
+          //   case Personnage::PERSONNAGE_TUE : 
+          //     $message = "le personnage frappé a été tué";
+          //     $manager->delete($persoAFrapper);
+          //   break;
+          // }
+          
 
         }
+       
+
+        if(Personnage::PERSONNAGE_FRAPPE)
+          {
+              $message = "vous avez frappé un personnage";
+              $perso->addExperience();
+              $manager->update($persoAFrapper);
+              $manager->update($perso); 
+          }
+        
+
+        // if(Personnage::NOMBRE_DE_COUP)
+        // {
+        //   if($perso->nbCoup() == 3)
+        //   {
+        //     $message = "vous avez frappé votre dernier coup de la journée.";
+
+        //     // if(isset($_GET["frapper"]))
+        //     // {
+        //     //   $message = "attendez pour frapper de nouveau";
+        //     // }
+            
+        //   }
+
+        //   // $currentDate = new DateTime();
+        //   // $currentDate->setTimezone(new DateTimeZone("Europe/Paris"));
+
+        //   // $i = $perso->dateDernierCoup()->getTimestamp();
+        //   // $j = $currentDate->getTimestamp();
+    
+        // }
+
 
         
         if(Personnage::PERSONNAGE_MONTE_NIVEAU)
@@ -171,11 +235,6 @@
 ?>
 
 
-<?php 
-
-
-
-?>
 
 
 <!DOCTYPE html>
@@ -199,23 +258,21 @@ if(isset($message))
 {
   echo "<p>$message</p>";
 }
-if(isset($perso) && isset($date))
+if(isset($message2))
 {
-  echo "<p>date du dernier coup ".$perso->dateDernierCoup()->format("Y-m-d H:i:s")."</p>";
-  echo "\n";
+  echo "<p>$message2</p>";
 }
+
 if(isset($perso))
 {
   echo "<p>nombre de coup : " . $perso->nbCoup()."</p>";
 }
 
-
-
 ?>
 
-<p><a href="?empty=aaa">empty database</a></p>
 
-<p><a href="?feedDb=a">add perso 1</a> / <a href="?feedDb2=b"> add perso 2</a></p>
+
+<p><a href="?empty=aaa">empty database</a> - <a href="?feedDb=a">add perso 1</a> / <a href="?feedDb2=b"> add perso 2</a></p>
 
 <p>Nombre de personnages : <?php echo $manager->count(); ?></p>
   <form action="" method="post">

@@ -124,8 +124,7 @@
             $message = "vous avez frappé un personnage";
 
             $date = new DateTime();
-            $timeZone = new DateTimeZone('Europe/Paris');
-            $date->setTimezone($timeZone);
+            $date->setTimezone(new DateTimeZone('Europe/Paris'));
 
             $perso->setDateDernierCoup($date);
 

@@ -120,7 +120,26 @@
           $perso->CountCoup();
           $perso->setDateDernierCoup($date);
           $manager->updateDate($perso);
-          $perso->frapper($persoAFrapper);
+          $retour = $perso->frapper($persoAFrapper);
+
+          switch ($retour)
+          {
+            case Personnage::CEST_MOI : 
+              $message = "vous vous frappez vous-même";
+            break;
+
+            case Personnage::PERSONNAGE_FRAPPE : 
+              $message = "vous avez frappé un personnage";
+              $perso->addExperience();
+              $manager->update($persoAFrapper);
+              $manager->update($perso);  
+            break;
+
+            case Personnage::PERSONNAGE_TUE : 
+              $message = "le personnage frappé a été tué";
+              $manager->delete($persoAFrapper);
+            break;
+          }
           
 
           
@@ -130,7 +149,26 @@
         {
           
           $perso->CountCoup();
-          $perso->frapper($persoAFrapper);
+          $retour = $perso->frapper($persoAFrapper);
+
+          switch ($retour)
+          {
+            case Personnage::CEST_MOI : 
+              $message = "vous vous frappez vous-même";
+            break;
+
+            case Personnage::PERSONNAGE_FRAPPE : 
+              $message = "vous avez frappé un personnage";
+              $perso->addExperience();
+              $manager->update($persoAFrapper);
+              $manager->update($perso);  
+            break;
+
+            case Personnage::PERSONNAGE_TUE : 
+              $message = "le personnage frappé a été tué";
+              $manager->delete($persoAFrapper);
+            break;
+          }
           
           
         }
@@ -142,10 +180,29 @@
           $tLast = $perso->dateDernierCoup()->getTimestamp();
           $tCurrent = $currentDate->getTimestamp();
 
-          if($tCurrent - $tLast > 10)
+          if($tCurrent - $tLast > 30)
           {
             $perso->setNbCoup(0);
-            $perso->frapper($persoAFrapper);
+           $retour =  $perso->frapper($persoAFrapper);
+
+           switch ($retour)
+          {
+            case Personnage::CEST_MOI : 
+              $message = "vous vous frappez vous-même";
+            break;
+
+            case Personnage::PERSONNAGE_FRAPPE : 
+              $message = "vous avez frappé un personnage";
+              $perso->addExperience();
+              $manager->update($persoAFrapper);
+              $manager->update($perso);  
+            break;
+
+            case Personnage::PERSONNAGE_TUE : 
+              $message = "le personnage frappé a été tué";
+              $manager->delete($persoAFrapper);
+            break;
+          }
             
             
           }
@@ -157,36 +214,19 @@
          
           
 
-          // switch ($retour)
-          // {
-          //   case Personnage::CEST_MOI : 
-          //     $message = "vous vous frappez vous-même";
-          //   break;
-
-          //   case Personnage::PERSONNAGE_FRAPPE : 
-          //     $message = "vous avez frappé un personnage";
-          //     $perso->addExperience();
-          //     $manager->update($persoAFrapper);
-          //     $manager->update($perso);  
-          //   break;
-
-          //   case Personnage::PERSONNAGE_TUE : 
-          //     $message = "le personnage frappé a été tué";
-          //     $manager->delete($persoAFrapper);
-          //   break;
-          // }
+          
           
 
         }
        
 
-        if(Personnage::PERSONNAGE_FRAPPE)
-          {
-              $message = "vous avez frappé un personnage";
-              $perso->addExperience();
-              $manager->update($persoAFrapper);
-              $manager->update($perso); 
-          }
+        // if(Personnage::PERSONNAGE_FRAPPE)
+        //   {
+        //       $message = "vous avez frappé un personnage";
+        //       $perso->addExperience();
+        //       $manager->update($persoAFrapper);
+        //       $manager->update($perso); 
+        //   }
         
 
         // if(Personnage::NOMBRE_DE_COUP)

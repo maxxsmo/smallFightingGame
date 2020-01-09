@@ -11,6 +11,7 @@ class Personnage {
   protected $date_dernier_coup;
   protected $nb_coup = 0;
   protected $type;
+  protected $atout;
 
   const CEST_MOI = 1; // constante renvoyé par la méthode frapper() si on se frappe soi-même.
   const PERSONNAGE_TUE = 2; // CONST renvoyé par la méthode recevoirDegats() si on a tué le perso en frappant. 
@@ -112,6 +113,29 @@ class Personnage {
     
   }
 
+  public function adjustAtout() {
+    if($this->degats < 25)
+    {
+      $this->atout = 4;
+    }
+    elseif($this->degats < 50)
+    {
+      $this->atout = 3;
+    }
+    elseif($this->degats < 75)
+    {
+      $this->atout = 2;
+    }
+    elseif ($this->degats < 90) 
+    {
+      $this->atout = 1;
+    }
+    else
+    {
+      $this->atout = 0;
+    }
+  }
+
   // getters : 
 
   public function id() {return $this->id;}
@@ -123,6 +147,7 @@ class Personnage {
   public function dateDernierCoup() {return $this->date_dernier_coup;}
   public function nbCoup() {return $this->nb_coup;}
   public function type() {return $this->type;}
+  public function atout() {return $this->atout;}
 
 
   //getters end.
@@ -198,6 +223,16 @@ class Personnage {
   public function setType() {
     $this->type = strtolower(static::class);
   }
+
+  public function setAtout($var) {
+
+    $var = (int) $var;
+    $this->atout = $var;
+
+    
+  }
+
+
   // setters end.
 
 }

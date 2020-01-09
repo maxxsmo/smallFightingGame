@@ -130,6 +130,7 @@
 
             $perso->CountCoup();
             $perso->addExperience();
+            $persoAFrapper->adjustAtout();
             $manager->update($persoAFrapper);
             $manager->update($perso);
             $manager->updateDate($perso);

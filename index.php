@@ -198,11 +198,7 @@ if(isset($message))
 {
   echo "<p>$message</p>";
 }
-if(isset($perso) && isset($date))
-{
-  echo "<p>date du dernier coup ".$perso->dateDernierCoup()->format("Y-m-d H:i:s")."</p>";
-  echo "\n";
-}
+
 if(isset($perso))
 {
   echo "<p>nombre de coup : " . $perso->nbCoup()."</p>";

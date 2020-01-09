@@ -18,8 +18,9 @@ class PersonnagesManager {
 
   public function add(Personnage $perso) {
 
-    $q = $this->_db->prepare("INSERT INTO personnages(nom) VALUES(:nom)");
+    $q = $this->_db->prepare("INSERT INTO personnages(nom, type) VALUES(:nom, :type)");
     $q->bindValue(":nom", $perso->nom());
+    $q->bindValue(":type", $perso->type());
     $q->execute() or die(print_r($q->errorInfo()));
     
     $perso->hydrate(["id" => $this->_db->lastInsertId(), "degats" => 0, "experience" => 0, "niveau" => 0, "puissance" => 5, "nb_coup" => 0]);

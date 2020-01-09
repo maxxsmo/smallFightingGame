@@ -5,7 +5,3 @@ function autoLoad($cLasseName) {require $cLasseName . ".php";}
 
 
 
-
-$a = new Magicien(["nom" => "Mage"]);
-
-echo (new Guerrier(["nom" => "warrior"]))->name();
